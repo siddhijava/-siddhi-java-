@@ -1,0 +1,4281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>JS Lab | JavaScript Practice</title>
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL RESET
+           ===================================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        :root {
+
+            --primary: #635bff;
+            --primary-dark: #5046e5;
+            --secondary: #06b6d4;
+
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+
+            --dark: #111827;
+            --dark-2: #1f2937;
+
+            --text: #172033;
+            --muted: #718096;
+
+            --background: #f5f7fb;
+            --white: #ffffff;
+
+            --border: #e8ebf2;
+
+            --shadow:
+                0 10px 35px
+                rgba(30, 41, 59, 0.08);
+
+            --sidebar-width: 255px;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            font-family:
+                Inter,
+                "Segoe UI",
+                Arial,
+                sans-serif;
+
+            background: var(--background);
+
+            color: var(--text);
+
+            min-height: 100vh;
+        }
+
+
+        button,
+        input,
+        select,
+        textarea {
+            font-family: inherit;
+        }
+
+
+        button {
+            cursor: pointer;
+        }
+
+
+        /* =====================================================
+           APPLICATION LAYOUT
+           ===================================================== */
+
+        .app {
+
+            display: flex;
+
+            min-height: 100vh;
+        }
+
+
+        /* =====================================================
+           SIDEBAR
+           ===================================================== */
+
+        .sidebar {
+
+            width: var(--sidebar-width);
+
+            position: fixed;
+
+            left: 0;
+            top: 0;
+            bottom: 0;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #111827 0%,
+                    #171d32 100%
+                );
+
+            color: white;
+
+            padding: 25px 18px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            z-index: 100;
+
+            box-shadow:
+                8px 0 30px
+                rgba(15, 23, 42, 0.08);
+        }
+
+
+        /* =====================================================
+           LOGO
+           ===================================================== */
+
+        .logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            padding:
+                5px 10px 30px;
+
+            border-bottom:
+                1px solid
+                rgba(255, 255, 255, 0.08);
+
+            margin-bottom: 25px;
+        }
+
+
+        .logo-icon {
+
+            width: 43px;
+            height: 43px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #635bff,
+                    #8b5cf6
+                );
+
+            font-size: 20px;
+
+            font-weight: 800;
+
+            box-shadow:
+                0 8px 20px
+                rgba(99, 91, 255, 0.35);
+        }
+
+
+        .logo-text strong {
+
+            display: block;
+
+            font-size: 18px;
+
+            letter-spacing: 0.2px;
+        }
+
+
+        .logo-text span {
+
+            display: block;
+
+            color: #8f9bb3;
+
+            font-size: 11px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR MENU
+           ===================================================== */
+
+        .menu-title {
+
+            color: #69758d;
+
+            text-transform: uppercase;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            letter-spacing: 1.5px;
+
+            padding:
+                0 12px 10px;
+        }
+
+
+        .sidebar-menu {
+
+            list-style: none;
+        }
+
+
+        .sidebar-menu li {
+
+            margin-bottom: 6px;
+        }
+
+
+        .sidebar-menu button {
+
+            width: 100%;
+
+            border: none;
+
+            background: transparent;
+
+            color: #aab3c5;
+
+            text-align: left;
+
+            padding:
+                12px 13px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            transition:
+                0.2s ease;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .sidebar-menu button:hover {
+
+            color: white;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+        }
+
+
+        .sidebar-menu button.active {
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(99, 91, 255, 0.9),
+                    rgba(99, 91, 255, 0.55)
+                );
+
+            box-shadow:
+                0 8px 20px
+                rgba(99, 91, 255, 0.18);
+        }
+
+
+        .menu-icon {
+
+            width: 24px;
+
+            text-align: center;
+
+            font-size: 15px;
+        }
+
+
+        /* =====================================================
+           SIDEBAR BOTTOM
+           ===================================================== */
+
+        .sidebar-bottom {
+
+            margin-top: auto;
+
+            background:
+                rgba(255, 255, 255, 0.05);
+
+            border:
+                1px solid
+                rgba(255, 255, 255, 0.07);
+
+            border-radius: 13px;
+
+            padding: 15px;
+        }
+
+
+        .progress-title {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            font-size: 11px;
+
+            color: #aab3c5;
+
+            margin-bottom: 9px;
+        }
+
+
+        .progress-bar {
+
+            height: 6px;
+
+            background: #2d3548;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+        }
+
+
+        .progress-fill {
+
+            width: 68%;
+
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #635bff,
+                    #06b6d4
+                );
+
+            border-radius: 20px;
+        }
+
+
+        /* =====================================================
+           MAIN CONTENT
+           ===================================================== */
+
+        .main {
+
+            margin-left: var(--sidebar-width);
+
+            width:
+                calc(
+                    100% - var(--sidebar-width)
+                );
+
+            min-height: 100vh;
+
+            padding: 30px 40px;
+        }
+
+
+        /* =====================================================
+           TOP BAR
+           ===================================================== */
+
+        .topbar {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .page-heading h1 {
+
+            font-size: 26px;
+
+            font-weight: 750;
+
+            color: #111827;
+
+            margin-bottom: 6px;
+        }
+
+
+        .page-heading p {
+
+            color: var(--muted);
+
+            font-size: 13px;
+        }
+
+
+        .top-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .notification {
+
+            width: 40px;
+            height: 40px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background: white;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            color: #667085;
+
+            font-size: 17px;
+        }
+
+
+        .profile {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding:
+                5px 12px 5px 5px;
+
+            background: white;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 30px;
+        }
+
+
+        .profile-avatar {
+
+            width: 31px;
+            height: 31px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #635bff,
+                    #06b6d4
+                );
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        .profile span {
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           HERO
+           ===================================================== */
+
+        .hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            min-height: 205px;
+
+            padding: 35px 40px;
+
+            border-radius: 20px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    110deg,
+                    #5146e5,
+                    #635bff 50%,
+                    #06b6d4
+                );
+
+            box-shadow:
+                0 18px 40px
+                rgba(99, 91, 255, 0.18);
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 30px;
+        }
+
+
+        .hero::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.08);
+
+            right: 100px;
+
+            top: -180px;
+        }
+
+
+        .hero::after {
+
+            content: "";
+
+            position: absolute;
+
+            width: 230px;
+            height: 230px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,0.06);
+
+            right: -80px;
+
+            bottom: -150px;
+        }
+
+
+        .hero-content {
+
+            position: relative;
+
+            z-index: 2;
+
+            max-width: 600px;
+        }
+
+
+        .hero-label {
+
+            display: inline-block;
+
+            padding:
+                5px 10px;
+
+            background:
+                rgba(255,255,255,0.13);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.15);
+
+            border-radius: 20px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 1px;
+
+            margin-bottom: 13px;
+        }
+
+
+        .hero h2 {
+
+            font-size: 30px;
+
+            margin-bottom: 9px;
+        }
+
+
+        .hero p {
+
+            color:
+                rgba(255,255,255,0.78);
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        .hero-symbol {
+
+            position: relative;
+
+            z-index: 2;
+
+            width: 120px;
+            height: 120px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 55px;
+
+            font-weight: 800;
+
+            color: white;
+
+            border-radius: 30px;
+
+            background:
+                rgba(255,255,255,0.12);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.2);
+
+            transform: rotate(5deg);
+
+            backdrop-filter: blur(8px);
+        }
+
+
+        /* =====================================================
+           STATISTICS
+           ===================================================== */
+
+        .stats {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 35px;
+        }
+
+
+        .stat {
+
+            background: white;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 15px;
+
+            padding: 20px;
+
+            box-shadow:
+                var(--shadow);
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+
+        .stat-icon {
+
+            width: 45px;
+            height: 45px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            font-size: 18px;
+        }
+
+
+        .stat:nth-child(1) .stat-icon {
+
+            background: #eef2ff;
+            color: #635bff;
+        }
+
+
+        .stat:nth-child(2) .stat-icon {
+
+            background: #ecfeff;
+            color: #0891b2;
+        }
+
+
+        .stat:nth-child(3) .stat-icon {
+
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+
+        .stat:nth-child(4) .stat-icon {
+
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+
+        .stat-number {
+
+            display: block;
+
+            font-size: 22px;
+
+            font-weight: 750;
+
+            color: #111827;
+        }
+
+
+        .stat-label {
+
+            display: block;
+
+            color: #8791a3;
+
+            font-size: 11px;
+
+            margin-top: 2px;
+        }
+
+
+        /* =====================================================
+           SECTION TOOLBAR
+           ===================================================== */
+
+        .section-toolbar {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+
+        .section-toolbar h2 {
+
+            font-size: 19px;
+
+            color: #172033;
+        }
+
+
+        .search-box {
+
+            position: relative;
+
+            width: 260px;
+        }
+
+
+        .search-box input {
+
+            width: 100%;
+
+            height: 40px;
+
+            border:
+                1px solid
+                var(--border);
+
+            background: white;
+
+            border-radius: 9px;
+
+            padding:
+                0 14px 0 38px;
+
+            outline: none;
+
+            font-size: 12px;
+
+            color: #172033;
+
+            margin: 0;
+        }
+
+
+        .search-box span {
+
+            position: absolute;
+
+            left: 14px;
+
+            top: 12px;
+
+            color: #9aa3b2;
+
+            font-size: 13px;
+        }
+
+
+        /* =====================================================
+           PROGRAM LIST
+           ===================================================== */
+
+        .program-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+
+        .program-card {
+
+            background: white;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 15px;
+
+            padding: 21px;
+
+            min-height: 210px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            box-shadow:
+                var(--shadow);
+
+            transition:
+                0.25s ease;
+        }
+
+
+        .program-card:hover {
+
+            transform:
+                translateY(-5px);
+
+            border-color:
+                #d8d4ff;
+
+            box-shadow:
+                0 18px 35px
+                rgba(30,41,59,0.11);
+        }
+
+
+        .program-top {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+
+        .program-icon {
+
+            width: 43px;
+            height: 43px;
+
+            border-radius: 12px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #e0e7ff
+                );
+
+            color: #635bff;
+
+            font-size: 17px;
+
+            font-weight: 800;
+        }
+
+
+        .program-tag {
+
+            padding:
+                5px 8px;
+
+            border-radius: 6px;
+
+            background: #f4f4ff;
+
+            color: #635bff;
+
+            font-size: 9px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .program-card h3 {
+
+            font-size: 16px;
+
+            color: #1e293b;
+
+            margin-bottom: 8px;
+        }
+
+
+        .program-card p {
+
+            color: #8791a3;
+
+            font-size: 11px;
+
+            line-height: 1.7;
+
+            flex: 1;
+        }
+
+
+        .program-footer {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            margin-top: 20px;
+
+            padding-top: 14px;
+
+            border-top:
+                1px solid
+                #f0f2f6;
+        }
+
+
+        .program-number {
+
+            color: #a1a9b7;
+
+            font-size: 10px;
+
+            font-weight: 600;
+        }
+
+
+        .open-btn {
+
+            border: none;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #635bff,
+                    #5046e5
+                );
+
+            border-radius: 7px;
+
+            padding:
+                8px 12px;
+
+            font-size: 10px;
+
+            font-weight: 700;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .open-btn:hover {
+
+            transform:
+                translateX(2px);
+
+            box-shadow:
+                0 5px 15px
+                rgba(99,91,255,0.25);
+        }
+
+
+        /* =====================================================
+           PROGRAM AREA
+           ===================================================== */
+
+        #programArea {
+
+            margin-top: 35px;
+        }
+
+
+        #programArea:empty {
+
+            display: none;
+        }
+
+
+        #programArea .program-panel {
+
+            background: white;
+
+            border:
+                1px solid
+                var(--border);
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            box-shadow:
+                var(--shadow);
+
+            max-width: 800px;
+
+            margin: auto;
+        }
+
+
+        #programArea h2 {
+
+            color: #172033;
+
+            font-size: 23px;
+
+            margin-bottom: 25px;
+        }
+
+
+        /* =====================================================
+           FORM DESIGN
+           ===================================================== */
+
+        label {
+
+            display: block;
+
+            color: #374151;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            margin:
+                13px 0 7px;
+        }
+
+
+        input,
+        select,
+        textarea {
+
+            width: 100%;
+
+            padding:
+                12px 14px;
+
+            background: #f8fafc;
+
+            color: #172033;
+
+            border:
+                1px solid
+                #e2e6ee;
+
+            border-radius: 9px;
+
+            outline: none;
+
+            font-size: 13px;
+
+            margin:
+                0 0 10px;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+
+            background: white;
+
+            border-color:
+                #635bff;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(99,91,255,0.1);
+        }
+
+
+        input::placeholder {
+
+            color: #a7afbd;
+        }
+
+
+        textarea {
+
+            min-height: 110px;
+
+            resize: vertical;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+           ===================================================== */
+
+        #programArea button {
+
+            border: none;
+
+            padding:
+                10px 16px;
+
+            border-radius: 8px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #635bff,
+                    #5046e5
+                );
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            margin-top: 8px;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        #programArea button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 7px 18px
+                rgba(99,91,255,0.25);
+        }
+
+
+        #programArea .close-btn {
+
+            background:
+                #fff1f2;
+
+            color:
+                #dc2626;
+
+            margin-left: 7px;
+        }
+
+
+        #programArea .close-btn:hover {
+
+            background:
+                #fee2e2;
+
+            box-shadow: none;
+        }
+
+
+        /* =====================================================
+           RESULT BOX
+           ===================================================== */
+
+        .result {
+
+            margin-top: 22px;
+
+            padding:
+                18px;
+
+            min-height: 50px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f5f3ff,
+                    #eff6ff
+                );
+
+            border:
+                1px solid
+                #e4e0ff;
+
+            border-radius: 11px;
+
+            color: #5146a5;
+
+            font-size: 13px;
+
+            line-height: 1.8;
+
+            font-weight: 650;
+
+            white-space: pre-line;
+        }
+
+
+        /* =====================================================
+           FOOTER
+           ===================================================== */
+
+        .footer {
+
+            margin-top: 50px;
+
+            padding:
+                25px 0;
+
+            text-align: center;
+
+            color: #9aa3b2;
+
+            font-size: 11px;
+
+            border-top:
+                1px solid
+                var(--border);
+        }
+
+
+        /* =====================================================
+           MOBILE MENU BUTTON
+           ===================================================== */
+
+        .mobile-menu {
+
+            display: none;
+
+            border: none;
+
+            width: 40px;
+            height: 40px;
+
+            border-radius: 9px;
+
+            background: white;
+
+            color: #172033;
+
+            border:
+                1px solid
+                var(--border);
+        }
+
+
+        /* =====================================================
+           RESPONSIVE TABLET
+           ===================================================== */
+
+        @media (max-width: 1100px) {
+
+            .program-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+        }
+
+
+        /* =====================================================
+           RESPONSIVE MOBILE
+           ===================================================== */
+
+        @media (max-width: 750px) {
+
+            .sidebar {
+
+                transform:
+                    translateX(-100%);
+
+                transition:
+                    transform 0.3s ease;
+            }
+
+
+            .sidebar.open {
+
+                transform:
+                    translateX(0);
+            }
+
+
+            .main {
+
+                margin-left: 0;
+
+                width: 100%;
+
+                padding:
+                    20px 15px;
+            }
+
+
+            .mobile-menu {
+
+                display: flex;
+
+                align-items: center;
+
+                justify-content: center;
+            }
+
+
+            .topbar {
+
+                gap: 10px;
+            }
+
+
+            .page-heading h1 {
+
+                font-size: 21px;
+            }
+
+
+            .page-heading p {
+
+                font-size: 11px;
+            }
+
+
+            .profile span {
+
+                display: none;
+            }
+
+
+            .hero {
+
+                padding:
+                    27px;
+
+                min-height:
+                    190px;
+            }
+
+
+            .hero h2 {
+
+                font-size: 24px;
+            }
+
+
+            .hero p {
+
+                font-size: 11px;
+            }
+
+
+            .hero-symbol {
+
+                width: 75px;
+                height: 75px;
+
+                font-size: 30px;
+            }
+
+
+            .program-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap: 10px;
+            }
+
+
+            .stat {
+
+                padding: 14px;
+
+                gap: 10px;
+            }
+
+
+            .stat-icon {
+
+                width: 37px;
+                height: 37px;
+
+                font-size: 14px;
+            }
+
+
+            .stat-number {
+
+                font-size: 17px;
+            }
+
+
+            .section-toolbar {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+                gap: 13px;
+            }
+
+
+            .search-box {
+
+                width: 100%;
+            }
+        }
+
+
+        /* =====================================================
+           SMALL MOBILE
+           ===================================================== */
+
+        @media (max-width: 450px) {
+
+            .top-actions {
+
+                gap: 5px;
+            }
+
+
+            .notification {
+
+                display: none;
+            }
+
+
+            .hero-symbol {
+
+                display: none;
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            #programArea .program-panel {
+
+                padding: 20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar" id="sidebar">
+
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                JS
+            </div>
+
+            <div class="logo-text">
+
+                <strong>JS LAB</strong>
+
+                <span>
+                    Learning Dashboard
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="menu-title">
+            Navigation
+        </div>
+
+
+        <ul class="sidebar-menu">
+
+            <li>
+                <button
+                    class="active"
+                    onclick="showDashboard()">
+
+                    <span class="menu-icon">
+                        ◈
+                    </span>
+
+                    Dashboard
+
+                </button>
+            </li>
+
+
+            <li>
+                <button
+                    onclick="scrollToPrograms()">
+
+                    <span class="menu-icon">
+                        ▦
+                    </span>
+
+                    All Programs
+
+                </button>
+            </li>
+
+
+            <li>
+                <button
+                    onclick="showCalculator()">
+
+                    <span class="menu-icon">
+                        ＋
+                    </span>
+
+                    Calculator
+
+                </button>
+            </li>
+
+
+            <li>
+                <button
+                    onclick="showPrime()">
+
+                    <span class="menu-icon">
+                        ◉
+                    </span>
+
+                    Number Tools
+
+                </button>
+            </li>
+
+
+            <li>
+                <button
+                    onclick="showPalindrome()">
+
+                    <span class="menu-icon">
+                        ◇
+                    </span>
+
+                    String Tools
+
+                </button>
+            </li>
+
+        </ul>
+
+
+        <div class="sidebar-bottom">
+
+            <div class="progress-title">
+
+                <span>
+                    Learning Progress
+                </span>
+
+                <strong>
+                    68%
+                </strong>
+
+            </div>
+
+            <div class="progress-bar">
+
+                <div class="progress-fill"></div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main class="main">
+
+
+        <!-- TOP BAR -->
+
+        <div class="topbar">
+
+
+            <button
+                class="mobile-menu"
+                onclick="toggleSidebar()">
+
+                ☰
+
+            </button>
+
+
+            <div class="page-heading">
+
+                <h1>
+                    JavaScript Lab
+                </h1>
+
+                <p>
+                    Practice fundamentals through interactive programs
+                </p>
+
+            </div>
+
+
+            <div class="top-actions">
+
+                <div class="notification">
+                    ♢
+                </div>
+
+
+                <div class="profile">
+
+                    <div class="profile-avatar">
+                        JS
+                    </div>
+
+                    <span>
+                        Learner
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================================
+             HERO
+             ================================================= -->
+
+        <section class="hero">
+
+
+            <div class="hero-content">
+
+                <span class="hero-label">
+                    Interactive Learning
+                </span>
+
+                <h2>
+                    Build Your JavaScript Skills
+                </h2>
+
+                <p>
+                    Explore practical JavaScript programs,
+                    experiment with inputs, and understand
+                    fundamental programming concepts.
+                </p>
+
+            </div>
+
+
+            <div class="hero-symbol">
+                &lt;/&gt;
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             STATISTICS
+             ================================================= -->
+
+        <section class="stats">
+
+
+            <div class="stat">
+
+                <div class="stat-icon">
+                    ▦
+                </div>
+
+                <div>
+
+                    <span class="stat-number">
+                        15
+                    </span>
+
+                    <span class="stat-label">
+                        Programs
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-icon">
+                    ⚡
+                </div>
+
+                <div>
+
+                    <span class="stat-number">
+                        100%
+                    </span>
+
+                    <span class="stat-label">
+                        Interactive
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span class="stat-number">
+                        15
+                    </span>
+
+                    <span class="stat-label">
+                        Exercises
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat">
+
+                <div class="stat-icon">
+                    ★
+                </div>
+
+                <div>
+
+                    <span class="stat-number">
+                        Easy
+                    </span>
+
+                    <span class="stat-label">
+                        Difficulty
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             PROGRAM SECTION
+             ================================================= -->
+
+        <section id="programs">
+
+
+            <div class="section-toolbar">
+
+                <h2>
+                    Practice Programs
+                </h2>
+
+
+                <div class="search-box">
+
+                    <span>
+                        🔍
+                    </span>
+
+                    <input
+                        type="text"
+                        id="programSearch"
+                        placeholder="Search programs..."
+                        onkeyup="searchPrograms()"
+                    >
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 PROGRAM CARDS
+                 ================================================= -->
+
+            <div class="program-grid"
+                 id="programGrid">
+
+
+                <!-- 1 -->
+
+                <article
+                    class="program-card"
+                    data-name="calculator">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            ÷
+                        </div>
+
+                        <span class="program-tag">
+                            Math
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Simple Calculator
+                    </h3>
+
+                    <p>
+                        Perform addition, subtraction,
+                        multiplication and division.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #01
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showCalculator()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 2 -->
+
+                <article
+                    class="program-card"
+                    data-name="swap two numbers">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            ⇄
+                        </div>
+
+                        <span class="program-tag">
+                            Logic
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Swap Two Numbers
+                    </h3>
+
+                    <p>
+                        Exchange two values without
+                        using a third variable.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #02
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showSwap()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 3 -->
+
+                <article
+                    class="program-card"
+                    data-name="simple interest">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            %
+                        </div>
+
+                        <span class="program-tag">
+                            Math
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Simple Interest
+                    </h3>
+
+                    <p>
+                        Calculate interest using
+                        principal, rate and time.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #03
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showInterest()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 4 -->
+
+                <article
+                    class="program-card"
+                    data-name="even odd">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            2
+                        </div>
+
+                        <span class="program-tag">
+                            Logic
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Even or Odd
+                    </h3>
+
+                    <p>
+                        Determine whether a given
+                        number is even or odd.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #04
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showEvenOdd()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 5 -->
+
+                <article
+                    class="program-card"
+                    data-name="largest three">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            ↑
+                        </div>
+
+                        <span class="program-tag">
+                            Logic
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Largest of Three
+                    </h3>
+
+                    <p>
+                        Compare three numbers and
+                        identify the largest value.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #05
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showLargestThree()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 6 -->
+
+                <article
+                    class="program-card"
+                    data-name="grade calculator">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            A
+                        </div>
+
+                        <span class="program-tag">
+                            Education
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Grade Calculator
+                    </h3>
+
+                    <p>
+                        Convert marks into grades using
+                        conditional statements.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #06
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showGrade()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 7 -->
+
+                <article
+                    class="program-card"
+                    data-name="leap year">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            29
+                        </div>
+
+                        <span class="program-tag">
+                            Date
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Leap Year Checker
+                    </h3>
+
+                    <p>
+                        Check whether a year satisfies
+                        leap-year conditions.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #07
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showLeapYear()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 8 -->
+
+                <article
+                    class="program-card"
+                    data-name="multiplication table">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            ×
+                        </div>
+
+                        <span class="program-tag">
+                            Loops
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Multiplication Table
+                    </h3>
+
+                    <p>
+                        Generate a complete multiplication
+                        table from 1 through 10.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #08
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showTable()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 9 -->
+
+                <article
+                    class="program-card"
+                    data-name="sum digits">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            Σ
+                        </div>
+
+                        <span class="program-tag">
+                            Loops
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Sum of Digits
+                    </h3>
+
+                    <p>
+                        Add together every digit in
+                        a given number.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #09
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showSumDigits()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 10 -->
+
+                <article
+                    class="program-card"
+                    data-name="reverse number">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            ↶
+                        </div>
+
+                        <span class="program-tag">
+                            Strings
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Reverse a Number
+                    </h3>
+
+                    <p>
+                        Reverse the digits of a
+                        number using JavaScript.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #10
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showReverse()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 11 -->
+
+                <article
+                    class="program-card"
+                    data-name="prime number">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            P
+                        </div>
+
+                        <span class="program-tag">
+                            Math
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Prime Number Checker
+                    </h3>
+
+                    <p>
+                        Determine whether a number
+                        is prime or not.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #11
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showPrime()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 12 -->
+
+                <article
+                    class="program-card"
+                    data-name="fibonacci series">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            ∞
+                        </div>
+
+                        <span class="program-tag">
+                            Loops
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Fibonacci Series
+                    </h3>
+
+                    <p>
+                        Generate the first N terms
+                        of the Fibonacci sequence.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #12
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showFibonacci()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 13 -->
+
+                <article
+                    class="program-card"
+                    data-name="palindrome">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            ↔
+                        </div>
+
+                        <span class="program-tag">
+                            Strings
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Palindrome
+                    </h3>
+
+                    <p>
+                        Check whether a string or
+                        number reads the same backwards.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #13
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showPalindrome()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 14 -->
+
+                <article
+                    class="program-card"
+                    data-name="largest array">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            []
+                        </div>
+
+                        <span class="program-tag">
+                            Arrays
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Largest Array Element
+                    </h3>
+
+                    <p>
+                        Search an array and find
+                        its largest element.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #14
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showLargestArray()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+
+                <!-- 15 -->
+
+                <article
+                    class="program-card"
+                    data-name="count vowels">
+
+                    <div class="program-top">
+
+                        <div class="program-icon">
+                            Aa
+                        </div>
+
+                        <span class="program-tag">
+                            Strings
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        Count Vowels
+                    </h3>
+
+                    <p>
+                        Count the number of vowels
+                        inside a text string.
+                    </p>
+
+                    <div class="program-footer">
+
+                        <span class="program-number">
+                            #15
+                        </span>
+
+                        <button
+                            class="open-btn"
+                            onclick="showVowels()">
+
+                            Open →
+
+                        </button>
+
+                    </div>
+
+                </article>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PROGRAM OUTPUT
+             ================================================= -->
+
+        <div id="programArea"></div>
+
+
+
+        <!-- =================================================
+             FOOTER
+             ================================================= -->
+
+        <div class="footer">
+
+            JavaScript Lab
+            &nbsp;•&nbsp;
+            Interactive Fundamentals Practice
+            &nbsp;•&nbsp;
+            15 Programs
+
+        </div>
+
+
+    </main>
+
+</div>
+
+
+
+<script>
+
+    /* =====================================================
+       SIDEBAR
+       ===================================================== */
+
+    function toggleSidebar() {
+
+        document
+            .getElementById("sidebar")
+            .classList
+            .toggle("open");
+    }
+
+
+    /* =====================================================
+       DASHBOARD
+       ===================================================== */
+
+    function showDashboard() {
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+
+    /* =====================================================
+       SCROLL TO PROGRAMS
+       ===================================================== */
+
+    function scrollToPrograms() {
+
+        document
+            .getElementById("programs")
+            .scrollIntoView({
+                behavior: "smooth"
+            });
+
+        document
+            .getElementById("sidebar")
+            .classList
+            .remove("open");
+    }
+
+
+    /* =====================================================
+       SEARCH PROGRAMS
+       ===================================================== */
+
+    function searchPrograms() {
+
+        const search =
+            document
+                .getElementById("programSearch")
+                .value
+                .toLowerCase();
+
+
+        const cards =
+            document.querySelectorAll(
+                ".program-card"
+            );
+
+
+        cards.forEach(function(card) {
+
+            const name =
+                card
+                    .getAttribute("data-name")
+                    .toLowerCase();
+
+
+            if (
+                name.includes(search)
+            ) {
+
+                card.style.display =
+                    "flex";
+
+            } else {
+
+                card.style.display =
+                    "none";
+            }
+
+        });
+    }
+
+
+    /* =====================================================
+       DISPLAY PROGRAM
+       ===================================================== */
+
+    function displayProgram(html) {
+
+        const area =
+            document.getElementById(
+                "programArea"
+            );
+
+
+        area.innerHTML = `
+
+            <div class="program-panel">
+
+                ${html}
+
+            </div>
+
+        `;
+
+
+        area.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    }
+
+
+    /* =====================================================
+       CLOSE PROGRAM
+       ===================================================== */
+
+    function closeProgram() {
+
+        document
+            .getElementById(
+                "programArea"
+            )
+            .innerHTML = "";
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 1
+       ===================================================== */
+
+    function showCalculator() {
+
+        displayProgram(`
+
+            <h2>
+                Simple Calculator
+            </h2>
+
+            <label>
+                First Number
+            </label>
+
+            <input
+                type="number"
+                id="calcNum1"
+                placeholder="Enter first number"
+            >
+
+
+            <label>
+                Operator
+            </label>
+
+            <select id="calcOperator">
+
+                <option value="+">
+                    Addition (+)
+                </option>
+
+                <option value="-">
+                    Subtraction (-)
+                </option>
+
+                <option value="*">
+                    Multiplication (*)
+                </option>
+
+                <option value="/">
+                    Division (/)
+                </option>
+
+            </select>
+
+
+            <label>
+                Second Number
+            </label>
+
+            <input
+                type="number"
+                id="calcNum2"
+                placeholder="Enter second number"
+            >
+
+
+            <button onclick="calculate()">
+                Calculate
+            </button>
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="calcResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function calculate() {
+
+        const num1 =
+            Number(
+                document
+                    .getElementById(
+                        "calcNum1"
+                    )
+                    .value
+            );
+
+
+        const num2 =
+            Number(
+                document
+                    .getElementById(
+                        "calcNum2"
+                    )
+                    .value
+            );
+
+
+        const operator =
+            document
+                .getElementById(
+                    "calcOperator"
+                )
+                .value;
+
+
+        let result;
+
+
+        if (operator === "+") {
+
+            result =
+                num1 + num2;
+
+        }
+
+        else if (operator === "-") {
+
+            result =
+                num1 - num2;
+
+        }
+
+        else if (operator === "*") {
+
+            result =
+                num1 * num2;
+
+        }
+
+        else if (operator === "/") {
+
+            if (num2 === 0) {
+
+                result =
+                    "Cannot divide by zero.";
+
+            }
+
+            else {
+
+                result =
+                    num1 / num2;
+            }
+        }
+
+
+        document
+            .getElementById(
+                "calcResult"
+            )
+            .innerText =
+                "Result: " + result;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 2
+       ===================================================== */
+
+    function showSwap() {
+
+        displayProgram(`
+
+            <h2>
+                Swap Two Numbers
+            </h2>
+
+            <label>
+                First Number
+            </label>
+
+            <input
+                type="number"
+                id="swapNum1"
+                placeholder="Enter first number"
+            >
+
+
+            <label>
+                Second Number
+            </label>
+
+            <input
+                type="number"
+                id="swapNum2"
+                placeholder="Enter second number"
+            >
+
+
+            <button onclick="swapNumbers()">
+                Swap Values
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="swapResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function swapNumbers() {
+
+        let a =
+            Number(
+                document
+                    .getElementById(
+                        "swapNum1"
+                    )
+                    .value
+            );
+
+
+        let b =
+            Number(
+                document
+                    .getElementById(
+                        "swapNum2"
+                    )
+                    .value
+            );
+
+
+        [a, b] = [b, a];
+
+
+        document
+            .getElementById(
+                "swapResult"
+            )
+            .innerText =
+                "After swapping:\n" +
+                "First Number: " + a +
+                "\nSecond Number: " + b;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 3
+       ===================================================== */
+
+    function showInterest() {
+
+        displayProgram(`
+
+            <h2>
+                Simple Interest
+            </h2>
+
+            <label>
+                Principal
+            </label>
+
+            <input
+                type="number"
+                id="principal"
+                placeholder="Enter principal"
+            >
+
+
+            <label>
+                Rate (%)
+            </label>
+
+            <input
+                type="number"
+                id="rate"
+                placeholder="Enter rate"
+            >
+
+
+            <label>
+                Time
+            </label>
+
+            <input
+                type="number"
+                id="time"
+                placeholder="Enter time"
+            >
+
+
+            <button onclick="calculateInterest()">
+                Calculate Interest
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="interestResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function calculateInterest() {
+
+        const p =
+            Number(
+                document
+                    .getElementById(
+                        "principal"
+                    )
+                    .value
+            );
+
+
+        const r =
+            Number(
+                document
+                    .getElementById(
+                        "rate"
+                    )
+                    .value
+            );
+
+
+        const t =
+            Number(
+                document
+                    .getElementById(
+                        "time"
+                    )
+                    .value
+            );
+
+
+        const si =
+            (p * r * t) / 100;
+
+
+        document
+            .getElementById(
+                "interestResult"
+            )
+            .innerText =
+                "Simple Interest: " + si;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 4
+       ===================================================== */
+
+    function showEvenOdd() {
+
+        displayProgram(`
+
+            <h2>
+                Even or Odd
+            </h2>
+
+            <label>
+                Enter Number
+            </label>
+
+            <input
+                type="number"
+                id="evenNumber"
+                placeholder="Enter number"
+            >
+
+
+            <button onclick="checkEvenOdd()">
+                Check Number
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="evenResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function checkEvenOdd() {
+
+        const number =
+            Number(
+                document
+                    .getElementById(
+                        "evenNumber"
+                    )
+                    .value
+            );
+
+
+        document
+            .getElementById(
+                "evenResult"
+            )
+            .innerText =
+
+            number % 2 === 0
+
+                ? number + " is Even."
+
+                : number + " is Odd.";
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 5
+       ===================================================== */
+
+    function showLargestThree() {
+
+        displayProgram(`
+
+            <h2>
+                Largest of Three Numbers
+            </h2>
+
+            <input
+                type="number"
+                id="large1"
+                placeholder="First number"
+            >
+
+            <input
+                type="number"
+                id="large2"
+                placeholder="Second number"
+            >
+
+            <input
+                type="number"
+                id="large3"
+                placeholder="Third number"
+            >
+
+
+            <button onclick="findLargestThree()">
+                Find Largest
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="largeResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function findLargestThree() {
+
+        const a =
+            Number(
+                document
+                    .getElementById(
+                        "large1"
+                    )
+                    .value
+            );
+
+
+        const b =
+            Number(
+                document
+                    .getElementById(
+                        "large2"
+                    )
+                    .value
+            );
+
+
+        const c =
+            Number(
+                document
+                    .getElementById(
+                        "large3"
+                    )
+                    .value
+            );
+
+
+        let largest = a;
+
+
+        if (b > largest) {
+
+            largest = b;
+        }
+
+
+        if (c > largest) {
+
+            largest = c;
+        }
+
+
+        document
+            .getElementById(
+                "largeResult"
+            )
+            .innerText =
+                "Largest: " + largest;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 6
+       ===================================================== */
+
+    function showGrade() {
+
+        displayProgram(`
+
+            <h2>
+                Grade Calculator
+            </h2>
+
+            <label>
+                Marks
+            </label>
+
+            <input
+                type="number"
+                id="marks"
+                min="0"
+                max="100"
+                placeholder="Enter marks from 0 to 100"
+            >
+
+
+            <button onclick="calculateGrade()">
+                Calculate Grade
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="gradeResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function calculateGrade() {
+
+        const marks =
+            Number(
+                document
+                    .getElementById(
+                        "marks"
+                    )
+                    .value
+            );
+
+
+        let grade;
+
+
+        if (marks >= 90) {
+
+            grade = "A";
+
+        }
+
+        else if (marks >= 75) {
+
+            grade = "B";
+
+        }
+
+        else if (marks >= 60) {
+
+            grade = "C";
+
+        }
+
+        else if (marks >= 40) {
+
+            grade = "D";
+
+        }
+
+        else {
+
+            grade = "Fail";
+        }
+
+
+        document
+            .getElementById(
+                "gradeResult"
+            )
+            .innerText =
+                "Grade: " + grade;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 7
+       ===================================================== */
+
+    function showLeapYear() {
+
+        displayProgram(`
+
+            <h2>
+                Leap Year Checker
+            </h2>
+
+            <label>
+                Enter Year
+            </label>
+
+            <input
+                type="number"
+                id="year"
+                placeholder="Example: 2024"
+            >
+
+
+            <button onclick="checkLeapYear()">
+                Check Year
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="leapResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function checkLeapYear() {
+
+        const year =
+            Number(
+                document
+                    .getElementById(
+                        "year"
+                    )
+                    .value
+            );
+
+
+        const leap =
+            year % 400 === 0 ||
+            (
+                year % 4 === 0 &&
+                year % 100 !== 0
+            );
+
+
+        document
+            .getElementById(
+                "leapResult"
+            )
+            .innerText =
+
+            leap
+
+                ? year + " is a Leap Year."
+
+                : year +
+                  " is not a Leap Year.";
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 8
+       ===================================================== */
+
+    function showTable() {
+
+        displayProgram(`
+
+            <h2>
+                Multiplication Table
+            </h2>
+
+            <label>
+                Enter Number
+            </label>
+
+            <input
+                type="number"
+                id="tableNumber"
+                placeholder="Enter number"
+            >
+
+
+            <button onclick="generateTable()">
+                Generate Table
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="tableResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function generateTable() {
+
+        const number =
+            Number(
+                document
+                    .getElementById(
+                        "tableNumber"
+                    )
+                    .value
+            );
+
+
+        let output = "";
+
+
+        for (
+            let i = 1;
+            i <= 10;
+            i++
+        ) {
+
+            output +=
+                number +
+                " × " +
+                i +
+                " = " +
+                number * i +
+                "\n";
+        }
+
+
+        document
+            .getElementById(
+                "tableResult"
+            )
+            .innerText =
+                output;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 9
+       ===================================================== */
+
+    function showSumDigits() {
+
+        displayProgram(`
+
+            <h2>
+                Sum of Digits
+            </h2>
+
+            <label>
+                Enter Number
+            </label>
+
+            <input
+                type="number"
+                id="sumNumber"
+                placeholder="Example: 12345"
+            >
+
+
+            <button onclick="sumDigits()">
+                Calculate Sum
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="sumResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function sumDigits() {
+
+        const value =
+            document
+                .getElementById(
+                    "sumNumber"
+                )
+                .value;
+
+
+        const digits =
+            value.replace("-", "");
+
+
+        let sum = 0;
+
+
+        for (
+            let digit of digits
+        ) {
+
+            sum += Number(digit);
+        }
+
+
+        document
+            .getElementById(
+                "sumResult"
+            )
+            .innerText =
+                "Sum of digits: " + sum;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 10
+       ===================================================== */
+
+    function showReverse() {
+
+        displayProgram(`
+
+            <h2>
+                Reverse a Number
+            </h2>
+
+            <label>
+                Enter Number
+            </label>
+
+            <input
+                type="number"
+                id="reverseNumber"
+                placeholder="Example: 12345"
+            >
+
+
+            <button onclick="reverseNumber()">
+                Reverse Number
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="reverseResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function reverseNumber() {
+
+        const number =
+            document
+                .getElementById(
+                    "reverseNumber"
+                )
+                .value;
+
+
+        const reversed =
+            number
+                .split("")
+                .reverse()
+                .join("");
+
+
+        document
+            .getElementById(
+                "reverseResult"
+            )
+            .innerText =
+                "Reversed: " + reversed;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 11
+       ===================================================== */
+
+    function showPrime() {
+
+        displayProgram(`
+
+            <h2>
+                Prime Number Checker
+            </h2>
+
+            <label>
+                Enter Number
+            </label>
+
+            <input
+                type="number"
+                id="primeNumber"
+                placeholder="Enter number"
+            >
+
+
+            <button onclick="checkPrime()">
+                Check Prime
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="primeResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function checkPrime() {
+
+        const number =
+            Number(
+                document
+                    .getElementById(
+                        "primeNumber"
+                    )
+                    .value
+            );
+
+
+        let isPrime = true;
+
+
+        if (number < 2) {
+
+            isPrime = false;
+        }
+
+
+        for (
+            let i = 2;
+            i <= Math.sqrt(number);
+            i++
+        ) {
+
+            if (
+                number % i === 0
+            ) {
+
+                isPrime = false;
+
+                break;
+            }
+        }
+
+
+        document
+            .getElementById(
+                "primeResult"
+            )
+            .innerText =
+
+            isPrime
+
+                ? number + " is Prime."
+
+                : number + " is Not Prime.";
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 12
+       ===================================================== */
+
+    function showFibonacci() {
+
+        displayProgram(`
+
+            <h2>
+                Fibonacci Series
+            </h2>
+
+            <label>
+                Number of Terms
+            </label>
+
+            <input
+                type="number"
+                id="fibTerms"
+                min="1"
+                placeholder="Example: 10"
+            >
+
+
+            <button onclick="generateFibonacci()">
+                Generate Series
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="fibResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function generateFibonacci() {
+
+        const n =
+            Number(
+                document
+                    .getElementById(
+                        "fibTerms"
+                    )
+                    .value
+            );
+
+
+        let a = 0;
+
+        let b = 1;
+
+        let output = "";
+
+
+        for (
+            let i = 0;
+            i < n;
+            i++
+        ) {
+
+            output += a;
+
+
+            if (
+                i < n - 1
+            ) {
+
+                output += " ";
+            }
+
+
+            const next =
+                a + b;
+
+
+            a = b;
+
+            b = next;
+        }
+
+
+        document
+            .getElementById(
+                "fibResult"
+            )
+            .innerText =
+                output;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 13
+       ===================================================== */
+
+    function showPalindrome() {
+
+        displayProgram(`
+
+            <h2>
+                Palindrome Checker
+            </h2>
+
+            <label>
+                Enter Text
+            </label>
+
+            <input
+                type="text"
+                id="palindromeInput"
+                placeholder="Example: madam"
+            >
+
+
+            <button onclick="checkPalindrome()">
+                Check Palindrome
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="palindromeResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function checkPalindrome() {
+
+        const input =
+            document
+                .getElementById(
+                    "palindromeInput"
+                )
+                .value;
+
+
+        const cleaned =
+            input
+                .toLowerCase()
+                .replace(/\s/g, "");
+
+
+        const reversed =
+            cleaned
+                .split("")
+                .reverse()
+                .join("");
+
+
+        const isPalindrome =
+            cleaned === reversed;
+
+
+        document
+            .getElementById(
+                "palindromeResult"
+            )
+            .innerText =
+
+            isPalindrome
+
+                ? "Palindrome"
+
+                : "Not a Palindrome";
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 14
+       ===================================================== */
+
+    function showLargestArray() {
+
+        displayProgram(`
+
+            <h2>
+                Largest Element in Array
+            </h2>
+
+            <label>
+                Numbers separated by commas
+            </label>
+
+            <input
+                type="text"
+                id="arrayInput"
+                placeholder="12, 45, 3, 89, 27"
+            >
+
+
+            <button onclick="findLargestArray()">
+                Find Largest
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="arrayResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function findLargestArray() {
+
+        const input =
+            document
+                .getElementById(
+                    "arrayInput"
+                )
+                .value;
+
+
+        const numbers =
+            input
+                .split(",")
+                .map(Number);
+
+
+        let largest =
+            numbers[0];
+
+
+        for (
+            let i = 1;
+            i < numbers.length;
+            i++
+        ) {
+
+            if (
+                numbers[i] > largest
+            ) {
+
+                largest =
+                    numbers[i];
+            }
+        }
+
+
+        document
+            .getElementById(
+                "arrayResult"
+            )
+            .innerText =
+                "Largest Element: " +
+                largest;
+    }
+
+
+
+    /* =====================================================
+       PROGRAM 15
+       ===================================================== */
+
+    function showVowels() {
+
+        displayProgram(`
+
+            <h2>
+                Count Vowels
+            </h2>
+
+            <label>
+                Enter a String
+            </label>
+
+            <input
+                type="text"
+                id="vowelInput"
+                placeholder="Example: Hello World"
+            >
+
+
+            <button onclick="countVowels()">
+                Count Vowels
+            </button>
+
+
+            <button
+                class="close-btn"
+                onclick="closeProgram()">
+
+                Close
+
+            </button>
+
+
+            <div
+                id="vowelResult"
+                class="result">
+            </div>
+
+        `);
+    }
+
+
+    function countVowels() {
+
+        const text =
+            document
+                .getElementById(
+                    "vowelInput"
+                )
+                .value;
+
+
+        const lowerText =
+            text.toLowerCase();
+
+
+        const vowels =
+            "aeiou";
+
+
+        let count = 0;
+
+
+        for (
+            let character
+            of lowerText
+        ) {
+
+            if (
+                vowels.includes(
+                    character
+                )
+            ) {
+
+                count++;
+            }
+        }
+
+
+        document
+            .getElementById(
+                "vowelResult"
+            )
+            .innerText =
+                "Number of vowels: " +
+                count;
+    }
+
+</script>
+
+
+</body>
+
+</html>
